@@ -24,7 +24,37 @@ namespace Repository.Functions
             return p;
         }
 
-        
+        public async Task<Brand> FindBrandById(int id)
+        {
+            Brand brand = null;
+            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+            brand = await context.Brand.Where(brand => brand.BrandId == id).FirstOrDefaultAsync();
+            return brand;
+        }
+
+
+        public async Task<Category> FindCateById(int id)
+        {
+            Category cate = null;
+            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+            cate = await context.Category.Where(categ => categ.CategoryId == id).FirstOrDefaultAsync();
+            return cate;
+
+            
+        }
+
+        public async Task<List<Product>> FindProductByBrand(int? id)
+        {
+            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+            List<Image> imgList = new List<Image>();
+            List<Product> proList = await context.Product.Where(pro => pro.BrandId == id).ToListAsync();
+            foreach (Product product in proList)
+            {
+                product.Image = await context.Image.Where(imgList => imgList.ProductId == product.ProductId).ToListAsync();
+                product.Brand = await FindBrandById(id.GetValueOrDefault());
+            }
+            return proList;
+        }
 
         public async Task<List<Product>> FindProductByCategory(int? id)
         {
@@ -34,6 +64,7 @@ namespace Repository.Functions
             foreach (Product product in proList)
             {
                 product.Image = await context.Image.Where(imgList => imgList.ProductId == product.ProductId).ToListAsync();
+                product.Category = await FindCateById(id.GetValueOrDefault());
             }
             return proList;
         }
@@ -50,6 +81,15 @@ namespace Repository.Functions
             var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             List<Category> cateList = await context.Category.ToListAsync();
             return cateList;
+        }
+
+        public async Task<Product> GetProductById(int id)
+        {
+            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+            Product result = await context.Product.FirstOrDefaultAsync(product => product.ProductId == id);
+            result.Image = await context.Image.Where(imgList => imgList.ProductId == result.ProductId).ToListAsync();
+            
+            return result;
         }
 
         public async Task<List<Product>> GetProductList()

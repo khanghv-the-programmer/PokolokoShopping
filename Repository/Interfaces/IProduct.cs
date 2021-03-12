@@ -14,6 +14,12 @@ namespace Repository.Interfaces
         Task<List<Category>> GetCategoryList();
         Task<List<Brand>> GetBrandList();
         Task<List<Product>> FindProductByCategory(int? id);
+        Task<List<Product>> FindProductByBrand(int? id);
+
+        Task<Product> GetProductById(int id);
+        Task<Brand> FindBrandById(int id);
+        Task<Category> FindCateById(int id);
+
         
     }
 }
