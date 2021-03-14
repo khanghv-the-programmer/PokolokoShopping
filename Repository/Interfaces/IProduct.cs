@@ -19,7 +19,9 @@ namespace Repository.Interfaces
         Task<Product> GetProductById(int id);
         Task<Brand> FindBrandById(int id);
         Task<Category> FindCateById(int id);
+        Task<Image> AddImage(List<Image> imgs);
 
+        Task<Image> AddThumbnailImg(Image thumb);
         
     }
 }
