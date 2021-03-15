@@ -48,7 +48,7 @@ namespace Repository.Functions
             var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             await context.Image.AddAsync(thumb);
             await context.SaveChangesAsync();
-            return await context.Image.Where(img => img.CreatedDate.Equals(thumb)).FirstOrDefaultAsync();
+            return await context.Image.Where(img => img.CreatedDate.Equals(thumb.CreatedDate)).FirstOrDefaultAsync();
         }
 
         public async Task<Brand> FindBrandById(int id)
