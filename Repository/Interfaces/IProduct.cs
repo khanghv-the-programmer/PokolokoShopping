@@ -22,6 +22,12 @@ namespace Repository.Interfaces
         Task<Image> AddImage(List<Image> imgs);
 
         Task<Image> AddThumbnailImg(Image thumb);
+
+        Task<Boolean> EditProduct(Product editedP);
+        Task<Boolean> EditThumbnail(Image thumbnail);
+
+        Task<Image> GetThumbnail(int productID);
+
         
     }
 }

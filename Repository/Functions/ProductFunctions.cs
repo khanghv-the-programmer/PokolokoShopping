@@ -13,15 +13,31 @@ namespace Repository.Functions
 {
     public class ProductFunctions : IProduct
     {
+        DatabaseContext context = null;
+        GenericRepo<Product> productRepo = null;
+        GenericRepo<Image> imageRepo = null;
+        GenericRepo<Category> cateRepo = null;
+        GenericRepo<Brand> brandRepo = null;
+
+        public ProductFunctions()
+        {
+            context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+            productRepo = new GenericRepo<Product>(context);
+            imageRepo = new GenericRepo<Image>(context); ;
+            cateRepo = new GenericRepo<Category>(context);
+            brandRepo = new GenericRepo<Brand>(context);
+
+        }
+
         public async Task<Image> AddImage(List<Image> img)
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+            
             try
             {
                 foreach(Image i in img)
                 {
-                    await context.Image.AddAsync(i);
-                    await context.SaveChangesAsync();
+                    await imageRepo.Add(i);
+                    await imageRepo.Save();
                 }
                 
                 return img.ElementAt(0);
@@ -35,7 +51,7 @@ namespace Repository.Functions
 
         public async Task<Product> AddProduct(Product p)
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+
             
                 await context.Product.AddAsync(p);
                 await context.SaveChangesAsync();
@@ -45,16 +61,62 @@ namespace Repository.Functions
 
         public async Task<Image> AddThumbnailImg(Image thumb)
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
+
             await context.Image.AddAsync(thumb);
             await context.SaveChangesAsync();
             return await context.Image.Where(img => img.CreatedDate.Equals(thumb.CreatedDate)).FirstOrDefaultAsync();
         }
 
+        public async Task<bool> EditProduct(Product editedP)
+        {
+
+            Product p = await GetProductById(editedP.ProductId);
+            p.BrandId = editedP.BrandId;
+            p.CategoryId = editedP.CategoryId;
+            p.Description = editedP.Description;
+            p.Material = editedP.Material;
+            p.QuantityInStock = editedP.QuantityInStock;
+            p.Status = editedP.Status;
+            p.Price = editedP.Price;
+            p.ModifiedDate = DateTime.Now;
+            try
+            {
+                context.Product.Update(p);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+
+
+
+        public async Task<Boolean> EditThumbnail(Image thumbnail)
+        {
+
+            Image thumb = await GetThumbnail(thumbnail.ProductId);
+            thumb.Image1 = thumbnail.Image1;
+            thumb.ModifiedDate = DateTime.Now;
+            thumb.Name = thumbnail.Name;
+            try
+            {
+                context.Update(thumb);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
         public async Task<Brand> FindBrandById(int id)
         {
             Brand brand = null;
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             brand = await context.Brand.Where(brand => brand.BrandId == id).FirstOrDefaultAsync();
             return brand;
         }
@@ -63,7 +125,6 @@ namespace Repository.Functions
         public async Task<Category> FindCateById(int id)
         {
             Category cate = null;
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             cate = await context.Category.Where(categ => categ.CategoryId == id).FirstOrDefaultAsync();
             return cate;
 
@@ -72,7 +133,6 @@ namespace Repository.Functions
 
         public async Task<List<Product>> FindProductByBrand(int? id)
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             List<Image> imgList = new List<Image>();
             List<Product> proList = await context.Product.Where(pro => pro.BrandId == id).ToListAsync();
             foreach (Product product in proList)
@@ -85,7 +145,6 @@ namespace Repository.Functions
 
         public async Task<List<Product>> FindProductByCategory(int? id)
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             List<Image> imgList = new List<Image>();
             List<Product> proList = await context.Product.Where(pro => pro.CategoryId == id).ToListAsync();
             foreach (Product product in proList)
@@ -98,21 +157,18 @@ namespace Repository.Functions
 
         public async Task<List<Brand>> GetBrandList()
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             List<Brand> brandList = await context.Brand.ToListAsync();
             return brandList;
         }
 
         public async Task<List<Category>> GetCategoryList()
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             List<Category> cateList = await context.Category.ToListAsync();
             return cateList;
         }
 
         public async Task<Product> GetProductById(int id)
         {
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             Product result = await context.Product.FirstOrDefaultAsync(product => product.ProductId == id);
             result.Image = await context.Image.Where(imgList => imgList.ProductId == id).ToListAsync();
             result.Brand = await FindBrandById(result.BrandId);
@@ -128,7 +184,6 @@ namespace Repository.Functions
             Brand brand = new Brand();
             Category cate = new Category();
             List<Image> imgList = new List<Image>();
-            var context = new DatabaseContext(DatabaseContext.ops.dbOptions);
             productList = await context.Product.Where(p => p.DeleteDate == null).ToListAsync();
         
             foreach (Product product in productList)
@@ -146,6 +201,14 @@ namespace Repository.Functions
 
             }
             return productList;
+        }
+
+        public async Task<Image> GetThumbnail(int productID)
+        {
+            Image thumb = new Image();
+            thumb = await context.Image.Where(img => img.ProductId == productID).FirstOrDefaultAsync();
+            return thumb;
+
         }
     }
 }
