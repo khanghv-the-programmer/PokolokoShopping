@@ -19,7 +19,7 @@ namespace Repository.Functions
 
         public ProductRepo() : base()
         {
-
+            
         }
 
 
@@ -38,7 +38,7 @@ namespace Repository.Functions
 
         public async override Task<Product> GetBy(object ID)
         {
-            Product result = await table.FirstOrDefaultAsync(product => product.ProductId.Equals(ID));
+            Product result = await table.FirstOrDefaultAsync(product => product.ProductId == (int) ID);
             return result;
 
         }
@@ -46,7 +46,7 @@ namespace Repository.Functions
         public async Task<List<Product>> GetProductsByBrand(object ID)
         {
             List<Product> list = new List<Product>();
-            list = await table.Where(product => product.BrandId.Equals(ID)).ToListAsync();
+            list = await table.Where(product => product.BrandId == (int) ID).ToListAsync();
             return list;
 
         }
@@ -54,7 +54,7 @@ namespace Repository.Functions
         public async Task<List<Product>> GetProductsByCate(object ID)
         {
             List<Product> list = new List<Product>();
-            list = await table.Where(product => product.CategoryId.Equals(ID)).ToListAsync();
+            list = await table.Where(product => product.CategoryId == (int)ID).ToListAsync();
             return list;
 
         }

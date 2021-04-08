@@ -28,7 +28,7 @@ namespace Repository.Functions
         public async override Task<Image> GetBy(object ID)
         {
             //thumbnail
-            return await table.Where(img => img.Idimage.Equals(ID)).FirstOrDefaultAsync();
+            return await table.Where(img => img.Idimage == (int)ID ).FirstOrDefaultAsync();
         }
 
         public async override Task Update(Image obj)
@@ -49,6 +49,24 @@ namespace Repository.Functions
         public async Task<Image> FindAddedImage(DateTime dateTime)
         {
             return await table.Where(img => img.CreatedDate.Equals(dateTime)).FirstOrDefaultAsync();
+        }
+
+        public async Task<Image> GetThumbnailImageByProductId(int productId)
+        {
+            return await table.Where(img => img.ProductId == productId).FirstOrDefaultAsync();
+        }
+
+        public async Task<Image> AddImages(List<Image> imgs)
+        {
+            foreach (Image image in imgs)
+            {
+                table.Add(image);
+                await Save();
+            }
+            Image thumb = await GetBy(imgs.ElementAt(0).ParentKey);
+            return thumb;
+
+
         }
     }
 }

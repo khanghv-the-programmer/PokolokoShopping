@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LZZyXeP9+Wm4/k48XUhsf9kGZv2RiaHHAPeDBi6DoGTzk4c6I6+QiSgizsBPj+VC33evJpRkrC6T3jljH7nT8Q==",
+  "dgSpecHash": "01aflmKDXzoEMu4fm+1i+p1o6kX1mD9HV8XXbvceRdESKj6UVP3IXX4vBUUOjxtVVeH/bt47p7xA+SQr/l8Htw==",
   "success": true,
   "projectFilePath": "D:\\C# core\\PokolokoShop_3Layers\\Repository\\Repository.csproj",
   "expectedPackageFiles": [
@@ -29,6 +29,7 @@
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\3.1.10\\microsoft.extensions.fileproviders.abstractions.3.1.10.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\3.1.10\\microsoft.extensions.fileproviders.physical.3.1.10.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\3.1.10\\microsoft.extensions.filesystemglobbing.3.1.10.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.http\\3.1.10\\microsoft.extensions.http.3.1.10.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.logging\\3.1.10\\microsoft.extensions.logging.3.1.10.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.1.10\\microsoft.extensions.logging.abstractions.3.1.10.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.options\\3.1.10\\microsoft.extensions.options.3.1.10.nupkg.sha512",

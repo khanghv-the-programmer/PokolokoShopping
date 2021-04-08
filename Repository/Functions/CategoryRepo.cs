@@ -26,7 +26,7 @@ namespace Repository.Functions
 
         public async override Task<Category> GetBy(object ID)
         {
-            return await table.Where(cate => cate.CategoryId.Equals(ID)).FirstOrDefaultAsync();
+            return await table.Where(cate => cate.CategoryId == (int) ID).FirstOrDefaultAsync();
         }
     }
 }

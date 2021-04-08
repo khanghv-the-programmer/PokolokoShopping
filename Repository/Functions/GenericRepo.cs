@@ -26,7 +26,8 @@ namespace Repository.Functions
 
         public async Task Add(T obj)
         {
-           await table.AddAsync(obj);    
+           await table.AddAsync(obj);
+           await Save();
         }
 
         public virtual Task Delete(object ID)

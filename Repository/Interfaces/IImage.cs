@@ -10,5 +10,9 @@ namespace Repository.Interfaces
     {
         Task<List<Image>> LoadImageByProductID(int productId);
         Task<Image> FindAddedImage(DateTime dateTime);
+
+        Task<Image> GetThumbnailImageByProductId(int productId);
+
+        Task<Image> AddImages(List<Image> imgs);
     }
 }

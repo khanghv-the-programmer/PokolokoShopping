@@ -28,7 +28,7 @@ namespace Repository.Functions
 
         public async override Task<Brand> GetBy(object ID)
         {
-            return await table.Where(brand => brand.BrandId.Equals(ID)).FirstOrDefaultAsync();
+            return await table.Where(brand => brand.BrandId == (int)ID).FirstOrDefaultAsync();
         }
 
         
