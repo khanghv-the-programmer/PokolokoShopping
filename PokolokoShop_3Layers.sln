@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{2A53A87E-58DC-4D57-BE62-AC8795C41308}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokolokoShop_User", "PokolokoShop_User\PokolokoShop_User.csproj", "{4EC33222-E031-4B9B-BB2B-95541E0EC474}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokolokoShop_User", "PokolokoShop_User\PokolokoShop_User.csproj", "{4EC33222-E031-4B9B-BB2B-95541E0EC474}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User_Prototype", "User_Prototype\User_Prototype.csproj", "{94F20E3B-D061-4C1F-86A9-3EAEE3A44DD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokolokoShopUserApp", "PokolokoShopUserApp\PokolokoShopUserApp.csproj", "{62776E0E-499F-4F50-BDDC-15A176E01B29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{4EC33222-E031-4B9B-BB2B-95541E0EC474}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EC33222-E031-4B9B-BB2B-95541E0EC474}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EC33222-E031-4B9B-BB2B-95541E0EC474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94F20E3B-D061-4C1F-86A9-3EAEE3A44DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F20E3B-D061-4C1F-86A9-3EAEE3A44DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94F20E3B-D061-4C1F-86A9-3EAEE3A44DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94F20E3B-D061-4C1F-86A9-3EAEE3A44DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62776E0E-499F-4F50-BDDC-15A176E01B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62776E0E-499F-4F50-BDDC-15A176E01B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62776E0E-499F-4F50-BDDC-15A176E01B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62776E0E-499F-4F50-BDDC-15A176E01B29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

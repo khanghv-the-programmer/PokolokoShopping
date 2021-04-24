@@ -398,3 +398,4 @@ D:\C# core\PokolokoShop_3Layers\PokolokoShop_User\bin\Debug\netcoreapp3.1\Micros
 D:\C# core\PokolokoShop_3Layers\PokolokoShop_User\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
 D:\C# core\PokolokoShop_3Layers\PokolokoShop_User\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\C# core\PokolokoShop_3Layers\PokolokoShop_User\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+D:\C# core\PokolokoShop_3Layers\PokolokoShop_User\bin\Debug\netcoreapp3.1\DataAnnotationsExtensions.dll

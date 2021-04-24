@@ -17,6 +17,8 @@ using PokolokoShop_User.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Logic.UserServices;
+using Repository.Interfaces;
+using Repository.Functions;
 
 namespace PokolokoShop_User
 {
@@ -38,7 +40,7 @@ namespace PokolokoShop_User
             var callbackUrl = Configuration.GetValue<string>("CallBackUrl");
             var sessionCookieLifetime = Configuration.GetValue("SessionCookieLifetime", 60);
             services.Configure<FacebookAuthSettings>(Configuration.GetSection("JWTSettings"));
-            
+
             Configuration.GetSection("JWTSettings").Bind(jwtSettings);
             var facebookAuthSettings = new FacebookAuthSettings();
             services.Configure<FacebookAuthSettings>(Configuration.GetSection("FacebookAuthSettings"));
@@ -47,12 +49,14 @@ namespace PokolokoShop_User
             services.AddSingleton(jwtSettings);
             services.AddSingleton<IFacebookInterface, FacebookRepo>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IToken, TokenRepo>();
             services.AddScoped<IUserInterfaces, UserService>();
+            
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddRouting();
             services.AddControllers();
             services.AddRazorPages();
-            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            services.AddControllersWithViews(options => options.InputFormatters.Insert(0, new RawJsonBodyInputFormatter())).AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSession(option => option.IdleTimeout = TimeSpan.FromSeconds(60 * 90));
             services.AddAuthentication(option =>
@@ -60,7 +64,9 @@ namespace PokolokoShop_User
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => { 
+            }
+            ).AddJwtBearer(x =>
+            {
                 x.SaveToken = true;
                 x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
@@ -72,12 +78,13 @@ namespace PokolokoShop_User
                     ValidateLifetime = false,
 
                 };
-            }).AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromMinutes(sessionCookieLifetime));
-            
-            
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+            }
+            ).AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromMinutes(sessionCookieLifetime));
+
+
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddHttpClient();
             
             

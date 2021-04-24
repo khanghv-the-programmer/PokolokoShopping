@@ -27,6 +27,11 @@ namespace PokolokoShop_User.Controllers
         {
             return View();
         }
+        [Route("/login")]
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

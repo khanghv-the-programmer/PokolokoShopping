@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.DataContext;
+using Repository.Domain;
 using Repository.Entities;
 using Repository.Interfaces;
 using System;
@@ -22,7 +23,7 @@ namespace Repository.Functions
         }
         public async Task<Account> SignIn(string username, string password)
         {
-            Account user = await table.Where(user => user.Username.Equals(username) && user.Password.Equals(password)).FirstOrDefaultAsync();
+            Account user = await table.Where(user => user.Username.Equals(username) && user.Password.Equals(password) && user.Status.Equals("Available")).FirstOrDefaultAsync();
             return user;
         }
 
@@ -46,6 +47,48 @@ namespace Repository.Functions
             Account user = await table.Where(user => user.CreatedDate.Equals(createdDate)).FirstOrDefaultAsync();
             return user;
         }
-    
+
+        public async Task<bool> DeleteUser(string username)
+        {
+            try
+            {
+                Account acc = await table.Where(acc => acc.Username.Equals(username)).FirstOrDefaultAsync();
+                acc.Status = "Deleted";
+                table.Update(acc);
+                await Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateUser(Account acc)
+        {
+            try
+            {
+                Account existed = await table.Where(acc => acc.Username.Equals(acc.Username)).FirstOrDefaultAsync();
+                existed.Password = acc.Password;
+                existed.FullName = acc.FullName;
+                existed.PhoneNumber = acc.PhoneNumber;
+                existed.ModifiedDate = DateTime.Now;
+                existed.Email = acc.Email;
+                existed.DateOfBirth = acc.DateOfBirth;
+                table.Update(existed);
+                await Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<Account> FindUserByEmail(string email)
+        {
+            Account user = await table.Where(user => user.Email.Equals(email)).FirstOrDefaultAsync();
+            return user;
+        }
     }
 }

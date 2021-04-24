@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Repository.Domain;
 using Repository.Entities;
 
 namespace Repository.DataContext
@@ -18,6 +19,8 @@ namespace Repository.DataContext
                 opsBuilder.UseSqlServer(settings.sqlConnectionString);
                 dbOptions = opsBuilder.Options;
             }
+
+            
             public DbContextOptionsBuilder<DatabaseContext> opsBuilder { get; set; }
             public DbContextOptions<DatabaseContext> dbOptions { get; set; }
             private AppConfiguration settings { get; set; }
@@ -35,6 +38,7 @@ namespace Repository.DataContext
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<RefreshToken> RefreshToken { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -207,6 +211,29 @@ namespace Repository.DataContext
                     .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasKey(e => e.Token)
+                    .HasName("PK__RefreshT__1EB4F8163AECAE09");
+
+                entity.Property(e => e.Token).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.CreatedDate).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IsUsed).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.IsValidated).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.UsernameNavigation)
+                    .WithMany(p => p.RefreshToken)
+                    .HasForeignKey(d => d.Username)
+                    .HasConstraintName("FK__RefreshTo__Usern__34C8D9D1");
             });
 
             OnModelCreatingPartial(modelBuilder);
